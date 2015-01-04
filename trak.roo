@@ -1,0 +1,32 @@
+// Spring Roo 1.3.1.RC1 [rev 4877cfb] log opened at 2014-12-31 18:21:06
+project --topLevelPackage com.nbad.xtrak
+jpa setup --provider HIBERNATE --database MYSQL --userName root --password tiger
+entity jpa --class ~.domain.Login --testAutomatically 
+field string --fieldName username --notNull --unique true
+field string --fieldName password --notNull
+field boolean --fieldName active 
+field date --fieldName lastLogin --type java.util.Date
+entity jpa --class ~.domain.Expense --testAutomatically 
+entity jpa --class ~.domain.ExpenseDetails --testAutomatically
+field reference --fieldName expense --type ~.domain.Expense --cardinality MANY_TO_ONE --fetch EAGER
+field reference --type com.nbad.xtrak.domain.Login --fieldName paidFor --notNull
+field number --fieldName cost --type java.lang.Double --notNull 
+focus --class ~.domain.Expense
+field reference --type com.nbad.xtrak.domain.Login --fieldName paidBy --notNull
+field date --fieldName xpdate --type java.util.Date --notNull
+field string --fieldName itemcode --notNull
+field string --fieldName remarks
+field number --fieldName totalCost --type java.lang.Double --notNull 
+field set --fieldName expenseDetails --type ~.domain.ExpenseDetails --cardinality ONE_TO_MANY
+entity jpa --class ~.domain.Payments --testAutomatically 
+field reference --type com.nbad.xtrak.domain.Login --fieldName paidBy
+field reference --type com.nbad.xtrak.domain.Login --fieldName paidTo
+field date --fieldName paidDate --type java.util.Date
+field number --fieldName amount --type java.lang.Double --notNull
+web jsf setup --implementation ORACLE_MOJARRA --library PRIMEFACES --theme GLASS_X 
+web jsf all --package ~.web
+perform eclipse
+quit// Spring Roo 1.3.1.RC1 [rev 4877cfb] log opened at 2014-12-31 20:34:23
+hint
+quit
+// Spring Roo 1.3.1.RC1 [rev 4877cfb] log closed at 2014-12-31 20:35:05
