@@ -140,10 +140,10 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
         paidByCreateInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{paymentsBean.completePaidBy}", List.class, new Class[] { String.class }));
         paidByCreateInput.setDropdown(true);
         paidByCreateInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidBy", String.class));
-        paidByCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username} #{paidBy.password} #{paidBy.lastLogin}", String.class));
+        paidByCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username} #{paidBy.password} #{paidBy.lastLogin} #{paidBy.role}", String.class));
         paidByCreateInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidBy}", Login.class));
         paidByCreateInput.setConverter(new LoginConverter());
-        paidByCreateInput.setRequired(false);
+        paidByCreateInput.setRequired(true);
         htmlPanelGrid.getChildren().add(paidByCreateInput);
         
         Message paidByCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -164,10 +164,10 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
         paidToCreateInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{paymentsBean.completePaidTo}", List.class, new Class[] { String.class }));
         paidToCreateInput.setDropdown(true);
         paidToCreateInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidTo", String.class));
-        paidToCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidTo.username} #{paidTo.password} #{paidTo.lastLogin}", String.class));
+        paidToCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidTo.username} #{paidTo.password} #{paidTo.lastLogin} #{paidTo.role}", String.class));
         paidToCreateInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidTo}", Login.class));
         paidToCreateInput.setConverter(new LoginConverter());
-        paidToCreateInput.setRequired(false);
+        paidToCreateInput.setRequired(true);
         htmlPanelGrid.getChildren().add(paidToCreateInput);
         
         Message paidToCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -188,7 +188,7 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
         paidDateCreateInput.setNavigator(true);
         paidDateCreateInput.setEffect("slideDown");
         paidDateCreateInput.setPattern("dd/MM/yyyy");
-        paidDateCreateInput.setRequired(false);
+        paidDateCreateInput.setRequired(true);
         htmlPanelGrid.getChildren().add(paidDateCreateInput);
         
         Message paidDateCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -238,10 +238,10 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
         paidByEditInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{paymentsBean.completePaidBy}", List.class, new Class[] { String.class }));
         paidByEditInput.setDropdown(true);
         paidByEditInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidBy", String.class));
-        paidByEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username} #{paidBy.password} #{paidBy.lastLogin}", String.class));
+        paidByEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username} #{paidBy.password} #{paidBy.lastLogin} #{paidBy.role}", String.class));
         paidByEditInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidBy}", Login.class));
         paidByEditInput.setConverter(new LoginConverter());
-        paidByEditInput.setRequired(false);
+        paidByEditInput.setRequired(true);
         htmlPanelGrid.getChildren().add(paidByEditInput);
         
         Message paidByEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -262,10 +262,10 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
         paidToEditInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{paymentsBean.completePaidTo}", List.class, new Class[] { String.class }));
         paidToEditInput.setDropdown(true);
         paidToEditInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidTo", String.class));
-        paidToEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidTo.username} #{paidTo.password} #{paidTo.lastLogin}", String.class));
+        paidToEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidTo.username} #{paidTo.password} #{paidTo.lastLogin} #{paidTo.role}", String.class));
         paidToEditInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidTo}", Login.class));
         paidToEditInput.setConverter(new LoginConverter());
-        paidToEditInput.setRequired(false);
+        paidToEditInput.setRequired(true);
         htmlPanelGrid.getChildren().add(paidToEditInput);
         
         Message paidToEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -286,7 +286,7 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
         paidDateEditInput.setNavigator(true);
         paidDateEditInput.setEffect("slideDown");
         paidDateEditInput.setPattern("dd/MM/yyyy");
-        paidDateEditInput.setRequired(false);
+        paidDateEditInput.setRequired(true);
         htmlPanelGrid.getChildren().add(paidDateEditInput);
         
         Message paidDateEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -382,7 +382,7 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
     public List<Login> PaymentsBean.completePaidBy(String query) {
         List<Login> suggestions = new ArrayList<Login>();
         for (Login login : Login.findAllLogins()) {
-            String loginStr = String.valueOf(login.getUsername() +  " "  + login.getPassword() +  " "  + login.getLastLogin());
+            String loginStr = String.valueOf(login.getUsername() +  " "  + login.getPassword() +  " "  + login.getLastLogin() +  " "  + login.getRole());
             if (loginStr.toLowerCase().startsWith(query.toLowerCase())) {
                 suggestions.add(login);
             }
@@ -393,7 +393,7 @@ privileged aspect PaymentsBean_Roo_ManagedBean {
     public List<Login> PaymentsBean.completePaidTo(String query) {
         List<Login> suggestions = new ArrayList<Login>();
         for (Login login : Login.findAllLogins()) {
-            String loginStr = String.valueOf(login.getUsername() +  " "  + login.getPassword() +  " "  + login.getLastLogin());
+            String loginStr = String.valueOf(login.getUsername() +  " "  + login.getPassword() +  " "  + login.getLastLogin() +  " "  + login.getRole());
             if (loginStr.toLowerCase().startsWith(query.toLowerCase())) {
                 suggestions.add(login);
             }

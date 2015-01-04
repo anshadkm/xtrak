@@ -57,6 +57,7 @@ privileged aspect LoginBean_Roo_ManagedBean {
         columns.add("username");
         columns.add("password");
         columns.add("lastLogin");
+        columns.add("role");
     }
     
     public String LoginBean.getName() {
@@ -202,6 +203,24 @@ privileged aspect LoginBean_Roo_ManagedBean {
         lastLoginCreateInputMessage.setDisplay("icon");
         htmlPanelGrid.getChildren().add(lastLoginCreateInputMessage);
         
+        OutputLabel roleCreateOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
+        roleCreateOutput.setFor("roleCreateInput");
+        roleCreateOutput.setId("roleCreateOutput");
+        roleCreateOutput.setValue("Role:");
+        htmlPanelGrid.getChildren().add(roleCreateOutput);
+        
+        InputText roleCreateInput = (InputText) application.createComponent(InputText.COMPONENT_TYPE);
+        roleCreateInput.setId("roleCreateInput");
+        roleCreateInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{loginBean.login.role}", String.class));
+        roleCreateInput.setRequired(false);
+        htmlPanelGrid.getChildren().add(roleCreateInput);
+        
+        Message roleCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
+        roleCreateInputMessage.setId("roleCreateInputMessage");
+        roleCreateInputMessage.setFor("roleCreateInput");
+        roleCreateInputMessage.setDisplay("icon");
+        htmlPanelGrid.getChildren().add(roleCreateInputMessage);
+        
         return htmlPanelGrid;
     }
     
@@ -288,6 +307,24 @@ privileged aspect LoginBean_Roo_ManagedBean {
         lastLoginEditInputMessage.setDisplay("icon");
         htmlPanelGrid.getChildren().add(lastLoginEditInputMessage);
         
+        OutputLabel roleEditOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
+        roleEditOutput.setFor("roleEditInput");
+        roleEditOutput.setId("roleEditOutput");
+        roleEditOutput.setValue("Role:");
+        htmlPanelGrid.getChildren().add(roleEditOutput);
+        
+        InputText roleEditInput = (InputText) application.createComponent(InputText.COMPONENT_TYPE);
+        roleEditInput.setId("roleEditInput");
+        roleEditInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{loginBean.login.role}", String.class));
+        roleEditInput.setRequired(false);
+        htmlPanelGrid.getChildren().add(roleEditInput);
+        
+        Message roleEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
+        roleEditInputMessage.setId("roleEditInputMessage");
+        roleEditInputMessage.setFor("roleEditInput");
+        roleEditInputMessage.setDisplay("icon");
+        htmlPanelGrid.getChildren().add(roleEditInputMessage);
+        
         return htmlPanelGrid;
     }
     
@@ -339,6 +376,16 @@ privileged aspect LoginBean_Roo_ManagedBean {
         lastLoginValueConverter.setPattern("dd/MM/yyyy");
         lastLoginValue.setConverter(lastLoginValueConverter);
         htmlPanelGrid.getChildren().add(lastLoginValue);
+        
+        HtmlOutputText roleLabel = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+        roleLabel.setId("roleLabel");
+        roleLabel.setValue("Role:");
+        htmlPanelGrid.getChildren().add(roleLabel);
+        
+        HtmlOutputText roleValue = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+        roleValue.setId("roleValue");
+        roleValue.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{loginBean.login.role}", String.class));
+        htmlPanelGrid.getChildren().add(roleValue);
         
         return htmlPanelGrid;
     }

@@ -138,10 +138,10 @@ privileged aspect ExpenseDetailsBean_Roo_ManagedBean {
         expenseCreateInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseDetailsBean.completeExpense}", List.class, new Class[] { String.class }));
         expenseCreateInput.setDropdown(true);
         expenseCreateInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "expense", String.class));
-        expenseCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{expense.xpdate} #{expense.itemcode} #{expense.remarks} #{expense.totalCost}", String.class));
+        expenseCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{expense.xpDate} #{expense.remarks} #{expense.totalCost}", String.class));
         expenseCreateInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{expense}", Expense.class));
         expenseCreateInput.setConverter(new ExpenseConverter());
-        expenseCreateInput.setRequired(false);
+        expenseCreateInput.setRequired(true);
         htmlPanelGrid.getChildren().add(expenseCreateInput);
         
         Message expenseCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -162,7 +162,7 @@ privileged aspect ExpenseDetailsBean_Roo_ManagedBean {
         paidForCreateInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseDetailsBean.completePaidFor}", List.class, new Class[] { String.class }));
         paidForCreateInput.setDropdown(true);
         paidForCreateInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidFor", String.class));
-        paidForCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidFor.username}", String.class));
+        paidForCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidFor.username} #{paidFor.password} #{paidFor.lastLogin} #{paidFor.role}", String.class));
         paidForCreateInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidFor}", Login.class));
         paidForCreateInput.setConverter(new LoginConverter());
         paidForCreateInput.setRequired(true);
@@ -215,10 +215,10 @@ privileged aspect ExpenseDetailsBean_Roo_ManagedBean {
         expenseEditInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseDetailsBean.completeExpense}", List.class, new Class[] { String.class }));
         expenseEditInput.setDropdown(true);
         expenseEditInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "expense", String.class));
-        expenseEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{expense.xpdate} #{expense.itemcode} #{expense.remarks} #{expense.totalCost}", String.class));
+        expenseEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{expense.xpDate} #{expense.remarks} #{expense.totalCost}", String.class));
         expenseEditInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{expense}", Expense.class));
         expenseEditInput.setConverter(new ExpenseConverter());
-        expenseEditInput.setRequired(false);
+        expenseEditInput.setRequired(true);
         htmlPanelGrid.getChildren().add(expenseEditInput);
         
         Message expenseEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
@@ -239,7 +239,7 @@ privileged aspect ExpenseDetailsBean_Roo_ManagedBean {
         paidForEditInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseDetailsBean.completePaidFor}", List.class, new Class[] { String.class }));
         paidForEditInput.setDropdown(true);
         paidForEditInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidFor", String.class));
-        paidForEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidFor.username} #{paidFor.password} #{paidFor.lastLogin}", String.class));
+        paidForEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidFor.username} #{paidFor.password} #{paidFor.lastLogin} #{paidFor.role}", String.class));
         paidForEditInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidFor}", Login.class));
         paidForEditInput.setConverter(new LoginConverter());
         paidForEditInput.setRequired(true);
@@ -326,7 +326,7 @@ privileged aspect ExpenseDetailsBean_Roo_ManagedBean {
     public List<Expense> ExpenseDetailsBean.completeExpense(String query) {
         List<Expense> suggestions = new ArrayList<Expense>();
         for (Expense expense : Expense.findAllExpenses()) {
-            String expenseStr = String.valueOf(expense.getXpdate() +  " "  + expense.getItemcode() +  " "  + expense.getRemarks() +  " "  + expense.getTotalCost());
+            String expenseStr = String.valueOf(expense.getXpDate() +  " "  + expense.getRemarks() +  " "  + expense.getTotalCost());
             if (expenseStr.toLowerCase().startsWith(query.toLowerCase())) {
                 suggestions.add(expense);
             }
@@ -337,7 +337,7 @@ privileged aspect ExpenseDetailsBean_Roo_ManagedBean {
     public List<Login> ExpenseDetailsBean.completePaidFor(String query) {
         List<Login> suggestions = new ArrayList<Login>();
         for (Login login : Login.findAllLogins()) {
-            String loginStr = login.getUsername();
+            String loginStr = String.valueOf(login.getUsername() +  " "  + login.getPassword() +  " "  + login.getLastLogin() +  " "  + login.getRole());
             if (loginStr.toLowerCase().startsWith(query.toLowerCase())) {
                 suggestions.add(login);
             }

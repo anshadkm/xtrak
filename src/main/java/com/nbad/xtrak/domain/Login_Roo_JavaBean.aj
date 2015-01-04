@@ -40,4 +40,12 @@ privileged aspect Login_Roo_JavaBean {
         this.lastLogin = lastLogin;
     }
     
+    public String Login.getRole() {
+        return this.role;
+    }
+    
+    public void Login.setRole(String role) {
+        this.role = role;
+    }
+    
 }

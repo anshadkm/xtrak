@@ -13,6 +13,7 @@ public class ExpenseDetails {
 
     /**
      */
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private Expense expense;
 

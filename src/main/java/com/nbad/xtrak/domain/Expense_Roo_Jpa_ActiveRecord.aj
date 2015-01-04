@@ -14,7 +14,7 @@ privileged aspect Expense_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Expense.entityManager;
     
-    public static final List<String> Expense.fieldNames4OrderClauseFilter = java.util.Arrays.asList("paidBy", "xpdate", "itemcode", "remarks", "totalCost", "expenseDetails");
+    public static final List<String> Expense.fieldNames4OrderClauseFilter = java.util.Arrays.asList("paidBy", "xpDate", "itemType", "remarks", "totalCost", "expenseDetails");
     
     public static final EntityManager Expense.entityManager() {
         EntityManager em = new Expense().entityManager;

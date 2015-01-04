@@ -3,6 +3,7 @@
 
 package com.nbad.xtrak.domain;
 
+import com.nbad.xtrak.domain.Expense;
 import com.nbad.xtrak.domain.ExpenseDataOnDemand;
 import com.nbad.xtrak.domain.ExpenseDetails;
 import com.nbad.xtrak.domain.ExpenseDetailsDataOnDemand;
@@ -35,6 +36,7 @@ privileged aspect ExpenseDetailsDataOnDemand_Roo_DataOnDemand {
     public ExpenseDetails ExpenseDetailsDataOnDemand.getNewTransientExpenseDetails(int index) {
         ExpenseDetails obj = new ExpenseDetails();
         setCost(obj, index);
+        setExpense(obj, index);
         setPaidFor(obj, index);
         return obj;
     }
@@ -42,6 +44,11 @@ privileged aspect ExpenseDetailsDataOnDemand_Roo_DataOnDemand {
     public void ExpenseDetailsDataOnDemand.setCost(ExpenseDetails obj, int index) {
         Double cost = new Integer(index).doubleValue();
         obj.setCost(cost);
+    }
+    
+    public void ExpenseDetailsDataOnDemand.setExpense(ExpenseDetails obj, int index) {
+        Expense expense = expenseDataOnDemand.getRandomExpense();
+        obj.setExpense(expense);
     }
     
     public void ExpenseDetailsDataOnDemand.setPaidFor(ExpenseDetails obj, int index) {

@@ -3,6 +3,7 @@
 
 package com.nbad.xtrak.domain;
 
+import com.nbad.xtrak.domain.Login;
 import com.nbad.xtrak.domain.LoginDataOnDemand;
 import com.nbad.xtrak.domain.Payments;
 import com.nbad.xtrak.domain.PaymentsDataOnDemand;
@@ -33,7 +34,9 @@ privileged aspect PaymentsDataOnDemand_Roo_DataOnDemand {
     public Payments PaymentsDataOnDemand.getNewTransientPayments(int index) {
         Payments obj = new Payments();
         setAmount(obj, index);
+        setPaidBy(obj, index);
         setPaidDate(obj, index);
+        setPaidTo(obj, index);
         return obj;
     }
     
@@ -42,9 +45,19 @@ privileged aspect PaymentsDataOnDemand_Roo_DataOnDemand {
         obj.setAmount(amount);
     }
     
+    public void PaymentsDataOnDemand.setPaidBy(Payments obj, int index) {
+        Login paidBy = loginDataOnDemand.getRandomLogin();
+        obj.setPaidBy(paidBy);
+    }
+    
     public void PaymentsDataOnDemand.setPaidDate(Payments obj, int index) {
         Date paidDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setPaidDate(paidDate);
+    }
+    
+    public void PaymentsDataOnDemand.setPaidTo(Payments obj, int index) {
+        Login paidTo = loginDataOnDemand.getRandomLogin();
+        obj.setPaidTo(paidTo);
     }
     
     public Payments PaymentsDataOnDemand.getSpecificPayments(int index) {

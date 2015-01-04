@@ -5,8 +5,10 @@ package com.nbad.xtrak.web;
 
 import com.nbad.xtrak.domain.Expense;
 import com.nbad.xtrak.domain.ExpenseDetails;
+import com.nbad.xtrak.domain.ItemType;
 import com.nbad.xtrak.domain.Login;
 import com.nbad.xtrak.web.ExpenseBean;
+import com.nbad.xtrak.web.converter.ItemTypeConverter;
 import com.nbad.xtrak.web.converter.LoginConverter;
 import com.nbad.xtrak.web.util.MessageFactory;
 import java.util.ArrayList;
@@ -60,8 +62,7 @@ privileged aspect ExpenseBean_Roo_ManagedBean {
     @PostConstruct
     public void ExpenseBean.init() {
         columns = new ArrayList<String>();
-        columns.add("xpdate");
-        columns.add("itemcode");
+        columns.add("xpDate");
         columns.add("remarks");
         columns.add("totalCost");
     }
@@ -146,7 +147,7 @@ privileged aspect ExpenseBean_Roo_ManagedBean {
         paidByCreateInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseBean.completePaidBy}", List.class, new Class[] { String.class }));
         paidByCreateInput.setDropdown(true);
         paidByCreateInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidBy", String.class));
-        paidByCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username}", String.class));
+        paidByCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username} #{paidBy.password} #{paidBy.lastLogin} #{paidBy.role}", String.class));
         paidByCreateInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidBy}", Login.class));
         paidByCreateInput.setConverter(new LoginConverter());
         paidByCreateInput.setRequired(true);
@@ -158,44 +159,50 @@ privileged aspect ExpenseBean_Roo_ManagedBean {
         paidByCreateInputMessage.setDisplay("icon");
         htmlPanelGrid.getChildren().add(paidByCreateInputMessage);
         
-        OutputLabel xpdateCreateOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
-        xpdateCreateOutput.setFor("xpdateCreateInput");
-        xpdateCreateOutput.setId("xpdateCreateOutput");
-        xpdateCreateOutput.setValue("Xpdate:");
-        htmlPanelGrid.getChildren().add(xpdateCreateOutput);
+        OutputLabel xpDateCreateOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
+        xpDateCreateOutput.setFor("xpDateCreateInput");
+        xpDateCreateOutput.setId("xpDateCreateOutput");
+        xpDateCreateOutput.setValue("Xp Date:");
+        htmlPanelGrid.getChildren().add(xpDateCreateOutput);
         
-        Calendar xpdateCreateInput = (Calendar) application.createComponent(Calendar.COMPONENT_TYPE);
-        xpdateCreateInput.setId("xpdateCreateInput");
-        xpdateCreateInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.xpdate}", Date.class));
-        xpdateCreateInput.setNavigator(true);
-        xpdateCreateInput.setEffect("slideDown");
-        xpdateCreateInput.setPattern("dd/MM/yyyy");
-        xpdateCreateInput.setRequired(true);
-        htmlPanelGrid.getChildren().add(xpdateCreateInput);
+        Calendar xpDateCreateInput = (Calendar) application.createComponent(Calendar.COMPONENT_TYPE);
+        xpDateCreateInput.setId("xpDateCreateInput");
+        xpDateCreateInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.xpDate}", Date.class));
+        xpDateCreateInput.setNavigator(true);
+        xpDateCreateInput.setEffect("slideDown");
+        xpDateCreateInput.setPattern("dd/MM/yyyy");
+        xpDateCreateInput.setRequired(true);
+        htmlPanelGrid.getChildren().add(xpDateCreateInput);
         
-        Message xpdateCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
-        xpdateCreateInputMessage.setId("xpdateCreateInputMessage");
-        xpdateCreateInputMessage.setFor("xpdateCreateInput");
-        xpdateCreateInputMessage.setDisplay("icon");
-        htmlPanelGrid.getChildren().add(xpdateCreateInputMessage);
+        Message xpDateCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
+        xpDateCreateInputMessage.setId("xpDateCreateInputMessage");
+        xpDateCreateInputMessage.setFor("xpDateCreateInput");
+        xpDateCreateInputMessage.setDisplay("icon");
+        htmlPanelGrid.getChildren().add(xpDateCreateInputMessage);
         
-        OutputLabel itemcodeCreateOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
-        itemcodeCreateOutput.setFor("itemcodeCreateInput");
-        itemcodeCreateOutput.setId("itemcodeCreateOutput");
-        itemcodeCreateOutput.setValue("Itemcode:");
-        htmlPanelGrid.getChildren().add(itemcodeCreateOutput);
+        OutputLabel itemTypeCreateOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
+        itemTypeCreateOutput.setFor("itemTypeCreateInput");
+        itemTypeCreateOutput.setId("itemTypeCreateOutput");
+        itemTypeCreateOutput.setValue("Item Type:");
+        htmlPanelGrid.getChildren().add(itemTypeCreateOutput);
         
-        InputText itemcodeCreateInput = (InputText) application.createComponent(InputText.COMPONENT_TYPE);
-        itemcodeCreateInput.setId("itemcodeCreateInput");
-        itemcodeCreateInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.itemcode}", String.class));
-        itemcodeCreateInput.setRequired(true);
-        htmlPanelGrid.getChildren().add(itemcodeCreateInput);
+        AutoComplete itemTypeCreateInput = (AutoComplete) application.createComponent(AutoComplete.COMPONENT_TYPE);
+        itemTypeCreateInput.setId("itemTypeCreateInput");
+        itemTypeCreateInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.itemType}", ItemType.class));
+        itemTypeCreateInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseBean.completeItemType}", List.class, new Class[] { String.class }));
+        itemTypeCreateInput.setDropdown(true);
+        itemTypeCreateInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "itemType", String.class));
+        itemTypeCreateInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{itemType.itemCode} #{itemType.itemDescription}", String.class));
+        itemTypeCreateInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{itemType}", ItemType.class));
+        itemTypeCreateInput.setConverter(new ItemTypeConverter());
+        itemTypeCreateInput.setRequired(true);
+        htmlPanelGrid.getChildren().add(itemTypeCreateInput);
         
-        Message itemcodeCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
-        itemcodeCreateInputMessage.setId("itemcodeCreateInputMessage");
-        itemcodeCreateInputMessage.setFor("itemcodeCreateInput");
-        itemcodeCreateInputMessage.setDisplay("icon");
-        htmlPanelGrid.getChildren().add(itemcodeCreateInputMessage);
+        Message itemTypeCreateInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
+        itemTypeCreateInputMessage.setId("itemTypeCreateInputMessage");
+        itemTypeCreateInputMessage.setFor("itemTypeCreateInput");
+        itemTypeCreateInputMessage.setDisplay("icon");
+        htmlPanelGrid.getChildren().add(itemTypeCreateInputMessage);
         
         OutputLabel remarksCreateOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
         remarksCreateOutput.setFor("remarksCreateInput");
@@ -272,7 +279,7 @@ privileged aspect ExpenseBean_Roo_ManagedBean {
         paidByEditInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseBean.completePaidBy}", List.class, new Class[] { String.class }));
         paidByEditInput.setDropdown(true);
         paidByEditInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "paidBy", String.class));
-        paidByEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username} #{paidBy.password} #{paidBy.lastLogin}", String.class));
+        paidByEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{paidBy.username} #{paidBy.password} #{paidBy.lastLogin} #{paidBy.role}", String.class));
         paidByEditInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{paidBy}", Login.class));
         paidByEditInput.setConverter(new LoginConverter());
         paidByEditInput.setRequired(true);
@@ -284,44 +291,50 @@ privileged aspect ExpenseBean_Roo_ManagedBean {
         paidByEditInputMessage.setDisplay("icon");
         htmlPanelGrid.getChildren().add(paidByEditInputMessage);
         
-        OutputLabel xpdateEditOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
-        xpdateEditOutput.setFor("xpdateEditInput");
-        xpdateEditOutput.setId("xpdateEditOutput");
-        xpdateEditOutput.setValue("Xpdate:");
-        htmlPanelGrid.getChildren().add(xpdateEditOutput);
+        OutputLabel xpDateEditOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
+        xpDateEditOutput.setFor("xpDateEditInput");
+        xpDateEditOutput.setId("xpDateEditOutput");
+        xpDateEditOutput.setValue("Xp Date:");
+        htmlPanelGrid.getChildren().add(xpDateEditOutput);
         
-        Calendar xpdateEditInput = (Calendar) application.createComponent(Calendar.COMPONENT_TYPE);
-        xpdateEditInput.setId("xpdateEditInput");
-        xpdateEditInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.xpdate}", Date.class));
-        xpdateEditInput.setNavigator(true);
-        xpdateEditInput.setEffect("slideDown");
-        xpdateEditInput.setPattern("dd/MM/yyyy");
-        xpdateEditInput.setRequired(true);
-        htmlPanelGrid.getChildren().add(xpdateEditInput);
+        Calendar xpDateEditInput = (Calendar) application.createComponent(Calendar.COMPONENT_TYPE);
+        xpDateEditInput.setId("xpDateEditInput");
+        xpDateEditInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.xpDate}", Date.class));
+        xpDateEditInput.setNavigator(true);
+        xpDateEditInput.setEffect("slideDown");
+        xpDateEditInput.setPattern("dd/MM/yyyy");
+        xpDateEditInput.setRequired(true);
+        htmlPanelGrid.getChildren().add(xpDateEditInput);
         
-        Message xpdateEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
-        xpdateEditInputMessage.setId("xpdateEditInputMessage");
-        xpdateEditInputMessage.setFor("xpdateEditInput");
-        xpdateEditInputMessage.setDisplay("icon");
-        htmlPanelGrid.getChildren().add(xpdateEditInputMessage);
+        Message xpDateEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
+        xpDateEditInputMessage.setId("xpDateEditInputMessage");
+        xpDateEditInputMessage.setFor("xpDateEditInput");
+        xpDateEditInputMessage.setDisplay("icon");
+        htmlPanelGrid.getChildren().add(xpDateEditInputMessage);
         
-        OutputLabel itemcodeEditOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
-        itemcodeEditOutput.setFor("itemcodeEditInput");
-        itemcodeEditOutput.setId("itemcodeEditOutput");
-        itemcodeEditOutput.setValue("Itemcode:");
-        htmlPanelGrid.getChildren().add(itemcodeEditOutput);
+        OutputLabel itemTypeEditOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
+        itemTypeEditOutput.setFor("itemTypeEditInput");
+        itemTypeEditOutput.setId("itemTypeEditOutput");
+        itemTypeEditOutput.setValue("Item Type:");
+        htmlPanelGrid.getChildren().add(itemTypeEditOutput);
         
-        InputText itemcodeEditInput = (InputText) application.createComponent(InputText.COMPONENT_TYPE);
-        itemcodeEditInput.setId("itemcodeEditInput");
-        itemcodeEditInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.itemcode}", String.class));
-        itemcodeEditInput.setRequired(true);
-        htmlPanelGrid.getChildren().add(itemcodeEditInput);
+        AutoComplete itemTypeEditInput = (AutoComplete) application.createComponent(AutoComplete.COMPONENT_TYPE);
+        itemTypeEditInput.setId("itemTypeEditInput");
+        itemTypeEditInput.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.itemType}", ItemType.class));
+        itemTypeEditInput.setCompleteMethod(expressionFactory.createMethodExpression(elContext, "#{expenseBean.completeItemType}", List.class, new Class[] { String.class }));
+        itemTypeEditInput.setDropdown(true);
+        itemTypeEditInput.setValueExpression("var", expressionFactory.createValueExpression(elContext, "itemType", String.class));
+        itemTypeEditInput.setValueExpression("itemLabel", expressionFactory.createValueExpression(elContext, "#{itemType.itemCode} #{itemType.itemDescription}", String.class));
+        itemTypeEditInput.setValueExpression("itemValue", expressionFactory.createValueExpression(elContext, "#{itemType}", ItemType.class));
+        itemTypeEditInput.setConverter(new ItemTypeConverter());
+        itemTypeEditInput.setRequired(true);
+        htmlPanelGrid.getChildren().add(itemTypeEditInput);
         
-        Message itemcodeEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
-        itemcodeEditInputMessage.setId("itemcodeEditInputMessage");
-        itemcodeEditInputMessage.setFor("itemcodeEditInput");
-        itemcodeEditInputMessage.setDisplay("icon");
-        htmlPanelGrid.getChildren().add(itemcodeEditInputMessage);
+        Message itemTypeEditInputMessage = (Message) application.createComponent(Message.COMPONENT_TYPE);
+        itemTypeEditInputMessage.setId("itemTypeEditInputMessage");
+        itemTypeEditInputMessage.setFor("itemTypeEditInput");
+        itemTypeEditInputMessage.setDisplay("icon");
+        htmlPanelGrid.getChildren().add(itemTypeEditInputMessage);
         
         OutputLabel remarksEditOutput = (OutputLabel) application.createComponent(OutputLabel.COMPONENT_TYPE);
         remarksEditOutput.setFor("remarksEditInput");
@@ -396,27 +409,27 @@ privileged aspect ExpenseBean_Roo_ManagedBean {
         paidByValue.setConverter(new LoginConverter());
         htmlPanelGrid.getChildren().add(paidByValue);
         
-        HtmlOutputText xpdateLabel = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
-        xpdateLabel.setId("xpdateLabel");
-        xpdateLabel.setValue("Xpdate:");
-        htmlPanelGrid.getChildren().add(xpdateLabel);
+        HtmlOutputText xpDateLabel = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+        xpDateLabel.setId("xpDateLabel");
+        xpDateLabel.setValue("Xp Date:");
+        htmlPanelGrid.getChildren().add(xpDateLabel);
         
-        HtmlOutputText xpdateValue = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
-        xpdateValue.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.xpdate}", Date.class));
-        DateTimeConverter xpdateValueConverter = (DateTimeConverter) application.createConverter(DateTimeConverter.CONVERTER_ID);
-        xpdateValueConverter.setPattern("dd/MM/yyyy");
-        xpdateValue.setConverter(xpdateValueConverter);
-        htmlPanelGrid.getChildren().add(xpdateValue);
+        HtmlOutputText xpDateValue = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+        xpDateValue.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.xpDate}", Date.class));
+        DateTimeConverter xpDateValueConverter = (DateTimeConverter) application.createConverter(DateTimeConverter.CONVERTER_ID);
+        xpDateValueConverter.setPattern("dd/MM/yyyy");
+        xpDateValue.setConverter(xpDateValueConverter);
+        htmlPanelGrid.getChildren().add(xpDateValue);
         
-        HtmlOutputText itemcodeLabel = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
-        itemcodeLabel.setId("itemcodeLabel");
-        itemcodeLabel.setValue("Itemcode:");
-        htmlPanelGrid.getChildren().add(itemcodeLabel);
+        HtmlOutputText itemTypeLabel = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+        itemTypeLabel.setId("itemTypeLabel");
+        itemTypeLabel.setValue("Item Type:");
+        htmlPanelGrid.getChildren().add(itemTypeLabel);
         
-        HtmlOutputText itemcodeValue = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
-        itemcodeValue.setId("itemcodeValue");
-        itemcodeValue.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.itemcode}", String.class));
-        htmlPanelGrid.getChildren().add(itemcodeValue);
+        HtmlOutputText itemTypeValue = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+        itemTypeValue.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{expenseBean.expense.itemType}", ItemType.class));
+        itemTypeValue.setConverter(new ItemTypeConverter());
+        htmlPanelGrid.getChildren().add(itemTypeValue);
         
         HtmlOutputText remarksLabel = (HtmlOutputText) application.createComponent(HtmlOutputText.COMPONENT_TYPE);
         remarksLabel.setId("remarksLabel");
@@ -464,9 +477,20 @@ privileged aspect ExpenseBean_Roo_ManagedBean {
     public List<Login> ExpenseBean.completePaidBy(String query) {
         List<Login> suggestions = new ArrayList<Login>();
         for (Login login : Login.findAllLogins()) {
-            String loginStr = String.valueOf(login.getUsername() +  " "  + login.getPassword() +  " "  + login.getLastLogin());
+            String loginStr = String.valueOf(login.getUsername() +  " "  + login.getPassword() +  " "  + login.getLastLogin() +  " "  + login.getRole());
             if (loginStr.toLowerCase().startsWith(query.toLowerCase())) {
                 suggestions.add(login);
+            }
+        }
+        return suggestions;
+    }
+    
+    public List<ItemType> ExpenseBean.completeItemType(String query) {
+        List<ItemType> suggestions = new ArrayList<ItemType>();
+        for (ItemType itemType : ItemType.findAllItemTypes()) {
+            String itemTypeStr = String.valueOf(itemType.getItemCode() +  " "  + itemType.getItemDescription());
+            if (itemTypeStr.toLowerCase().startsWith(query.toLowerCase())) {
+                suggestions.add(itemType);
             }
         }
         return suggestions;

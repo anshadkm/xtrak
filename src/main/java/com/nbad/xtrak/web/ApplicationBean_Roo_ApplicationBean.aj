@@ -82,6 +82,29 @@ privileged aspect ApplicationBean_Roo_ApplicationBean {
         menuModel.addSubmenu(submenu);
         
         submenu = new Submenu();
+        submenu.setId("itemTypeSubmenu");
+        submenu.setLabel("ItemType");
+        item = new MenuItem();
+        item.setId("createItemTypeMenuItem");
+        item.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{messages.label_create}", String.class));
+        item.setActionExpression(expressionFactory.createMethodExpression(elContext, "#{itemTypeBean.displayCreateDialog}", String.class, new Class[0]));
+        item.setIcon("ui-icon ui-icon-document");
+        item.setAjax(false);
+        item.setAsync(false);
+        item.setUpdate(":dataForm:data");
+        submenu.getChildren().add(item);
+        item = new MenuItem();
+        item.setId("listItemTypeMenuItem");
+        item.setValueExpression("value", expressionFactory.createValueExpression(elContext, "#{messages.label_list}", String.class));
+        item.setActionExpression(expressionFactory.createMethodExpression(elContext, "#{itemTypeBean.displayList}", String.class, new Class[0]));
+        item.setIcon("ui-icon ui-icon-folder-open");
+        item.setAjax(false);
+        item.setAsync(false);
+        item.setUpdate(":dataForm:data");
+        submenu.getChildren().add(item);
+        menuModel.addSubmenu(submenu);
+        
+        submenu = new Submenu();
         submenu.setId("loginSubmenu");
         submenu.setLabel("Login");
         item = new MenuItem();
@@ -130,10 +153,6 @@ privileged aspect ApplicationBean_Roo_ApplicationBean {
     
     public MenuModel ApplicationBean.getMenuModel() {
         return menuModel;
-    }
-    
-    public String ApplicationBean.getAppName() {
-        return "Xtrak";
     }
     
 }

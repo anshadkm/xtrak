@@ -5,6 +5,7 @@ package com.nbad.xtrak.domain;
 
 import com.nbad.xtrak.domain.Expense;
 import com.nbad.xtrak.domain.ExpenseDetails;
+import com.nbad.xtrak.domain.ItemType;
 import com.nbad.xtrak.domain.Login;
 import java.util.Date;
 import java.util.Set;
@@ -19,20 +20,20 @@ privileged aspect Expense_Roo_JavaBean {
         this.paidBy = paidBy;
     }
     
-    public Date Expense.getXpdate() {
-        return this.xpdate;
+    public Date Expense.getXpDate() {
+        return this.xpDate;
     }
     
-    public void Expense.setXpdate(Date xpdate) {
-        this.xpdate = xpdate;
+    public void Expense.setXpDate(Date xpDate) {
+        this.xpDate = xpDate;
     }
     
-    public String Expense.getItemcode() {
-        return this.itemcode;
+    public ItemType Expense.getItemType() {
+        return this.itemType;
     }
     
-    public void Expense.setItemcode(String itemcode) {
-        this.itemcode = itemcode;
+    public void Expense.setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
     
     public String Expense.getRemarks() {

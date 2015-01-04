@@ -5,6 +5,8 @@ package com.nbad.xtrak.domain;
 
 import com.nbad.xtrak.domain.Expense;
 import com.nbad.xtrak.domain.ExpenseDataOnDemand;
+import com.nbad.xtrak.domain.ItemType;
+import com.nbad.xtrak.domain.ItemTypeDataOnDemand;
 import com.nbad.xtrak.domain.Login;
 import com.nbad.xtrak.domain.LoginDataOnDemand;
 import java.security.SecureRandom;
@@ -29,21 +31,24 @@ privileged aspect ExpenseDataOnDemand_Roo_DataOnDemand {
     private List<Expense> ExpenseDataOnDemand.data;
     
     @Autowired
+    ItemTypeDataOnDemand ExpenseDataOnDemand.itemTypeDataOnDemand;
+    
+    @Autowired
     LoginDataOnDemand ExpenseDataOnDemand.loginDataOnDemand;
     
     public Expense ExpenseDataOnDemand.getNewTransientExpense(int index) {
         Expense obj = new Expense();
-        setItemcode(obj, index);
+        setItemType(obj, index);
         setPaidBy(obj, index);
         setRemarks(obj, index);
         setTotalCost(obj, index);
-        setXpdate(obj, index);
+        setXpDate(obj, index);
         return obj;
     }
     
-    public void ExpenseDataOnDemand.setItemcode(Expense obj, int index) {
-        String itemcode = "itemcode_" + index;
-        obj.setItemcode(itemcode);
+    public void ExpenseDataOnDemand.setItemType(Expense obj, int index) {
+        ItemType itemType = itemTypeDataOnDemand.getRandomItemType();
+        obj.setItemType(itemType);
     }
     
     public void ExpenseDataOnDemand.setPaidBy(Expense obj, int index) {
@@ -61,9 +66,9 @@ privileged aspect ExpenseDataOnDemand_Roo_DataOnDemand {
         obj.setTotalCost(totalCost);
     }
     
-    public void ExpenseDataOnDemand.setXpdate(Expense obj, int index) {
-        Date xpdate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
-        obj.setXpdate(xpdate);
+    public void ExpenseDataOnDemand.setXpDate(Expense obj, int index) {
+        Date xpDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
+        obj.setXpDate(xpDate);
     }
     
     public Expense ExpenseDataOnDemand.getSpecificExpense(int index) {

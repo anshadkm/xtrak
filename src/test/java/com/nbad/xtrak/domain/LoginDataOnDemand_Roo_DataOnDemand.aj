@@ -30,6 +30,7 @@ privileged aspect LoginDataOnDemand_Roo_DataOnDemand {
         setActive(obj, index);
         setLastLogin(obj, index);
         setPassword(obj, index);
+        setRole(obj, index);
         setUsername(obj, index);
         return obj;
     }
@@ -47,6 +48,11 @@ privileged aspect LoginDataOnDemand_Roo_DataOnDemand {
     public void LoginDataOnDemand.setPassword(Login obj, int index) {
         String password = "password_" + index;
         obj.setPassword(password);
+    }
+    
+    public void LoginDataOnDemand.setRole(Login obj, int index) {
+        String role = "role_" + index;
+        obj.setRole(role);
     }
     
     public void LoginDataOnDemand.setUsername(Login obj, int index) {

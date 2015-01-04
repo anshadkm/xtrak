@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord
+@RooJpaActiveRecord(finders = { "findExpensesByPaidBy" })
 public class Expense {
 
     /**
@@ -29,12 +29,13 @@ public class Expense {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
-    private Date xpdate;
+    private Date xpDate;
 
     /**
      */
     @NotNull
-    private String itemcode;
+    @ManyToOne
+    private ItemType itemType;
 
     /**
      */
@@ -49,4 +50,8 @@ public class Expense {
      */
     @OneToMany(cascade = CascadeType.ALL)
     private Set<ExpenseDetails> expenseDetails = new HashSet<ExpenseDetails>();
+    
+    public void get() {
+    	entityManager.createQuery("SELECT e.totalCost, COUNT(t) FROM Expense e GROUP BY d.name");
+    }
 }
