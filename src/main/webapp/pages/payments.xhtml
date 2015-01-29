@@ -14,18 +14,38 @@
     <h:form prependId="false" id="dataForm">
       <p:panel id="data" toggleable="true" toggleSpeed="250">
         <f:facet name="header">
-          <h:outputText value="#{paymentsBean.name}" />
+          <h:outputText value="Payments" />
         </f:facet>
         <h:outputFormat id="noRecordsFound" value="#{messages.label_no_records_found}" rendered="#{!paymentsBean.dataVisible}">
           <f:param value="Paymentses" />
         </h:outputFormat>
         <p:dataTable id="list" value="#{paymentsBean.allPaymentses}" var="payments" rendered="#{paymentsBean.dataVisible}" resizableColumns="false" paginator="true" paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,25,50" rows="10">
-          <p:columns value="#{paymentsBean.columns}" var="column" columnIndexVar="colIndex">
+          <p:column>
             <f:facet name="header">
-              <h:outputText value="#{applicationBean.getColumnName(column)}" />
+              <h:outputText value="Month" />
             </f:facet>
-            <h:outputText value="#{payments[column]}" />
-          </p:columns>
+            <h:outputText value="#{payments.paidDate}">
+            	<f:convertDateTime pattern="MMM-yyyy" timeZone="GMT+4" />
+            </h:outputText>
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="Paid By" />
+            </f:facet>
+            <h:outputText value="#{payments.paidBy}" />
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="To" />
+            </f:facet>
+            <h:outputText value="#{payments.paidTo}" />
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="Amount" />
+            </f:facet>
+            <h:outputText value="#{payments.amount}" style="float:right" />
+          </p:column>
           <p:column styleClass="action-column">
             <f:facet name="header">
               <h:outputText value="Actions" />

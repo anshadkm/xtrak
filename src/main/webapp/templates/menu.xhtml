@@ -16,6 +16,7 @@
   		<p:menuitem id="listExpenseDetailsMenuItem" value="#{messages.label_list}" icon="ui-icon ui-icon-folder-open" action="#{expenseDetailsBean.displayList}" ajax="false" async="false" update=":dataForm:data" />
   	</p:submenu>
   	<p:submenu id="paymentsSubmenu" label="Settlements">
+  		<p:menuitem id="viewSettlementsMenuItem" value="View" icon="ui-icon ui-icon-folder-open" action="settlements" ajax="false" async="false" update=":dataForm:data" />
   		<p:menuitem id="createPaymentsMenuItem" value="#{messages.label_create}" icon="ui-icon ui-icon-document" action="#{paymentsBean.displayCreateDialog}" ajax="false" async="false" update=":dataForm:data" />
   		<p:menuitem id="listPaymentsMenuItem" value="#{messages.label_list}" icon="ui-icon ui-icon-folder-open" action="#{paymentsBean.displayList}" ajax="false" async="false" update=":dataForm:data" />
   	</p:submenu>

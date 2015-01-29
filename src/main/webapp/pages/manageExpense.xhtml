@@ -20,36 +20,20 @@
           <f:param value="Expenses" />
         </h:outputFormat>
         <p:dataTable id="list" value="#{expenseBean.allExpenses}" var="expense" rendered="#{expenseBean.dataVisible}" resizableColumns="false" paginator="true" paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,25,50" rows="10">
-          <p:column>
-          	<f:facet name="header">
-              <h:outputText value="Date" />
+          <p:columns value="#{expenseBean.columns}" var="column" columnIndexVar="colIndex">
+            <f:facet name="header">
+              <h:outputText value="#{applicationBean.getColumnName(column)}" />
             </f:facet>
-            <h:outputText value="#{expense.xpDate}">
-            	<f:convertDateTime pattern="dd-MM-yyyy" timeZone="GMT+4" />
-            </h:outputText>
-          </p:column>
-          <p:column>
-          	<f:facet name="header">
-              <h:outputText value="Paid By" />
-            </f:facet>
-            <h:outputText value="#{expense.paidBy}" />
-          </p:column>
-          <p:column>
-          	<f:facet name="header">
-              <h:outputText value="Remarks" />
-            </f:facet>
-            <h:outputText value="#{expense.remarks}" />
-          </p:column>
-          <p:column>
-          	<f:facet name="header">
-              <h:outputText value="Total Cost" />
-            </f:facet>
-            <h:outputText value="#{expense.totalCost}" />
-          </p:column>
+            <h:outputText value="#{expense[column]}" />
+          </p:columns>
           <p:column styleClass="action-column">
             <f:facet name="header">
               <h:outputText value="Actions" />
             </f:facet>
+            <p:commandButton id="viewButton" icon="ui-icon-zoomin" update=":viewForm:viewPanelGrid" oncomplete="viewDialogWidget.show()" title="#{messages.label_view}">
+              <f:setPropertyActionListener value="#{expense}" target="#{expenseBean.expense}" />
+            </p:commandButton>
+            <p:tooltip for="viewButton" value="#{messages.label_view}" showEffect="fade" hideEffect="fade" />
             <p:commandButton id="editButton" icon="ui-icon-pencil" update=":editForm:editPanelGrid" action="#{expenseBean.onEdit}" oncomplete="editDialogWidget.show()" title="#{messages.label_edit}">
               <f:setPropertyActionListener value="#{expense}" target="#{expenseBean.expense}" />
             </p:commandButton>
@@ -62,7 +46,7 @@
         </p:dataTable>
       </p:panel>
     </h:form>
-    <p:dialog id="createDialog" header="#{messages.label_create} Expense" modal="true" widgetVar="createDialogWidget" dynamic="true" visible="#{expenseBean.createDialogVisible}" showEffect="fade" hideEffect="explode">
+    <p:dialog id="createDialog" header="#{messages.label_create} Expense" modal="true" widgetVar="createDialogWidget" dynamic="true" visible="#{expenseBean.createDialogVisible}" resizable="true" maximizable="true" showEffect="fade" hideEffect="explode">
       <p:ajax event="close" update=":dataForm:data" listener="#{expenseBean.handleDialogClose}" />
       <p:outputPanel id="createPanel">
         <h:form id="createForm" enctype="multipart/form-data">

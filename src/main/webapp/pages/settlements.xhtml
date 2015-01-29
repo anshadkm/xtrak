@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/layout.xhtml">
+  <ui:define name="content">
+    <h:form prependId="false" id="growlForm">
+      <p:growl id="growl" showDetail="false" />
+    </h:form>
+    <h:form prependId="false" id="dataForm">
+      <p:panel id="data" toggleable="true" toggleSpeed="250">
+        <f:facet name="header">
+          <h:outputText value="Settlements" />
+        </f:facet>
+        <p:dataTable id="list" value="#{paymentsBean.settlementDetails}" var="settlement" rendered="true" resizableColumns="false" paginator="true" paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,25,50" rows="10">
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="User" />
+            </f:facet>
+            <h:outputText value="#{settlement.user}" />
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="Month" />
+            </f:facet>
+            <h:outputText value="#{settlement.month}" style="center" />
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="Spent" />
+            </f:facet>
+            <h:outputText value="#{settlement.amountSpent}" style="float:right" />
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="To Settle" />
+            </f:facet>
+            <h:outputText value="#{settlement.amountToSettle}" style="float:right" />
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="Settled" />
+            </f:facet>
+            <h:outputText value="#{settlement.amountSettled}" style="float:right" />
+          </p:column>
+          <p:column>
+          	<f:facet name="header">
+              <h:outputText value="Remaining Balance" />
+            </f:facet>
+            <h:outputText value="#{settlement.amountSpent - settlement.amountToSettle + settlement.amountSettled}" style="float:right" />
+          </p:column>
+        </p:dataTable>
+      </p:panel>
+    </h:form>
+  </ui:define>
+</ui:composition>
+</html>
